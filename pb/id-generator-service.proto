@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package pb;
 
+// TODO:
+
 service IdGeneratorService {
     rpc GenerateId(GenerateIdRequest) returns(GenerateIdReply) {}
 }
