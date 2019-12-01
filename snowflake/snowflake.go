@@ -1,16 +1,16 @@
 package snowflake
 
 import (
-	"go-snowflake-service/cache"
 	"go-snowflake-service/conf"
 	"go-snowflake-service/consts"
-	"strconv"
+	"sync"
 	"time"
 )
 
 type ID int64
 
 type SnowFlake struct {
+	mutex     *sync.Mutex
 	timestamp int64
 	node      int64
 	step      int64
@@ -24,64 +24,33 @@ func NewSnowFlake(node int64) *SnowFlake {
 	}
 }
 
-func (gen *SnowFlake) GenerateId() (ID, error) {
-	for {
-		if qs, _ := cache.RedisClient.SetNX("lock"+strconv.Itoa(int(gen.node)), "1", time.Minute*5).Result(); qs == true {
-			break
-		}
+func (flake *SnowFlake) GenerateId() (ID, error) {
+	flake.mutex.Lock()         // 保证并发安全, 加锁
+	defer flake.mutex.Unlock() // 方法运行完毕后解锁
 
-		time.Sleep(time.Nanosecond)
-	}
-
-	// 获取当前时间戳
+	// 获取当前时间的时间戳 (毫秒数显示)
 	now := time.Now().UnixNano() / 1e6
 
-	// 获取Redis中存储的时间戳
-	gen.timestamp, _ = cache.RedisClient.Get("timestamp" + strconv.Itoa(int(gen.node))).Int64()
+	if flake.timestamp == now {
+		// step 步进 1
+		flake.step++
 
-	if gen.timestamp == now {
-		// 1. step步进
-		gen.step++
-
-		// 2. 写入步进
-		if err := cache.RedisClient.Incr("step" + strconv.Itoa(int(gen.node))).Err(); err != nil {
-			return 0, err
-		}
-
-		// 3. 检查当前 step 是否用完
-		if gen.step > consts.StepMax {
+		// 当前 step 用完
+		if flake.step > consts.StepMax {
 			// 等待本毫秒结束
-			for now <= gen.timestamp {
+			for now <= flake.timestamp {
 				now = time.Now().UnixNano() / 1e6
 			}
 		}
 
 	} else {
 		// 本毫秒内 step 用完
-		gen.step = 0
-		// 写入Step
-		if err := cache.RedisClient.Set(
-			"step"+strconv.Itoa(int(gen.node)),
-			0,
-			0).Err(); err != nil {
-			return 0, err
-		}
+		flake.step = 0
 	}
 
-	// 更新当前timestamp
-	gen.timestamp = now
-
-	// 写入timestamp
-	if err := cache.RedisClient.Set(
-		"timestamp"+strconv.Itoa(int(gen.node)),
-		gen.timestamp, 0).Err(); err != nil {
-		return 0, err
-	}
-
-	cache.RedisClient.Del("lock" + strconv.Itoa(int(gen.node)))
-
+	flake.timestamp = now
 	// 移位运算，生产最终 ID
-	result := ID((now-conf.ConfigObject.EpochTimeStamp)<<consts.TimeShift | (gen.node << consts.NodeShift) | (gen.step))
+	result := ID((now-conf.ConfigObject.EpochTimeStamp)<<consts.TimeShift | (flake.node << consts.NodeShift) | (flake.step))
 
 	return result, nil
 }
