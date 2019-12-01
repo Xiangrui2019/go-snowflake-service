@@ -12,5 +12,4 @@ message GenerateIdRequest {
 
 message GenerateIdReply {
     int64 Id = 1;
-    string Error = 2;
 }
