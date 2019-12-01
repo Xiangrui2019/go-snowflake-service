@@ -12,7 +12,6 @@ import (
 type Config struct {
 	Addr           string `yaml:"addr"`
 	EpochTimeStamp int64  `yaml:"epoch_timestamp"`
-	Offset         int64  `yaml:"offset"`
 }
 
 var ConfigObject *Config

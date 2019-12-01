@@ -12,7 +12,7 @@ type IdGeneratorService struct {
 func (service *IdGeneratorService) GenerateId(ctx context.Context, in *pb.GenerateIdRequest) (*pb.GenerateIdReply, error) {
 	flake := generator_pool.GetSnowFlake(in.NodeId)
 
-	id, err := flake.GenerateId()
+	id, err := flake.NextId()
 
 	return &pb.GenerateIdReply{Id: int64(id)}, err
 }

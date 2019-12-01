@@ -3,6 +3,7 @@ package snowflake
 import (
 	"go-snowflake-service/conf"
 	"go-snowflake-service/consts"
+	"math/rand"
 	"sync"
 	"time"
 )
@@ -17,10 +18,12 @@ type SnowFlake struct {
 }
 
 func NewSnowFlake(node int64) *SnowFlake {
+	rand.Seed(time.Now().UnixNano())
+
 	return &SnowFlake{
 		mutex:     &sync.Mutex{},
 		timestamp: 0,
-		node:      node + conf.ConfigObject.Offset,
+		node:      node + rand.Int63n(8888),
 		step:      0,
 	}
 }
