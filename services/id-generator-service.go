@@ -14,7 +14,5 @@ func (service *IdGeneratorService) GenerateId(ctx context.Context, in *pb.Genera
 
 	id, err := flake.GenerateId()
 
-	return &pb.GenerateIdReply{
-		Id: int64(id),
-	}, err
+	return &pb.GenerateIdReply{Id: int64(id)}, err
 }
