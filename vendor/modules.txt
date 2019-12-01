@@ -26,6 +26,8 @@ github.com/hashicorp/go-rootcerts
 github.com/hashicorp/golang-lru/simplelru
 # github.com/hashicorp/serf v0.8.5
 github.com/hashicorp/serf/coordinate
+# github.com/joho/godotenv v1.3.0
+github.com/joho/godotenv
 # github.com/mitchellh/go-homedir v1.1.0
 github.com/mitchellh/go-homedir
 # github.com/mitchellh/mapstructure v1.1.2
