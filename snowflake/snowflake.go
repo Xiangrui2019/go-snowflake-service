@@ -26,7 +26,7 @@ func NewSnowFlake(node int64) *SnowFlake {
 
 func (gen *SnowFlake) GenerateId() (ID, error) {
 	for {
-		if qs, _ := cache.RedisClient.SetNX(strconv.Itoa(int(gen.node)), "1", time.Minute*5).Result(); qs == true {
+		if qs, _ := cache.RedisClient.SetNX("lock"+strconv.Itoa(int(gen.node)), "1", time.Minute*5).Result(); qs == true {
 			break
 		}
 
@@ -78,7 +78,7 @@ func (gen *SnowFlake) GenerateId() (ID, error) {
 		return 0, err
 	}
 
-	cache.RedisClient.Del(strconv.Itoa(int(gen.node)))
+	cache.RedisClient.Del("lock" + strconv.Itoa(int(gen.node)))
 
 	// 移位运算，生产最终 ID
 	result := ID((now-conf.ConfigObject.EpochTimeStamp)<<consts.TimeShift | (gen.node << consts.NodeShift) | (gen.step))

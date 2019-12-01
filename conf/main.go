@@ -15,6 +15,7 @@ type Config struct {
 	RedisDatabase  int    `yaml:"redis_database"`
 	RedisPassword  string `yaml:"redis_password"`
 	EpochTimeStamp int64  `yaml:"epoch_timestamp"`
+	WorkerPoolSize int64  `yaml:"work_pool_size"`
 }
 
 var ConfigObject *Config
