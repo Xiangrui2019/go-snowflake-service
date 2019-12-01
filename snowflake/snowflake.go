@@ -20,12 +20,12 @@ func NewSnowFlake(node int64) *SnowFlake {
 	return &SnowFlake{
 		mutex:     &sync.Mutex{},
 		timestamp: 0,
-		node:      node,
+		node:      node + conf.ConfigObject.Offset,
 		step:      0,
 	}
 }
 
-func (flake *SnowFlake) GenerateId() (ID, error) {
+func (flake *SnowFlake) NextId() (ID, error) {
 	flake.mutex.Lock()         // 保证并发安全, 加锁
 	defer flake.mutex.Unlock() // 方法运行完毕后解锁
 
