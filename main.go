@@ -25,7 +25,7 @@ func main() {
 
 	reflection.Register(server)
 
-	log.Printf("Server started on %s", conf.ConfigObject.Addr)
+	log.Printf("[Snowflake] Server started on %s", conf.ConfigObject.Addr)
 
 	if err := server.Serve(listen); err != nil {
 		log.Fatal(err)
