@@ -2,6 +2,7 @@ package cache
 
 import (
 	"go-snowflake-service/conf"
+	"log"
 
 	"github.com/go-redis/redis"
 )
@@ -14,4 +15,8 @@ func InitRedis() {
 		Password: conf.ConfigObject.Redis.Password,
 		DB:       conf.ConfigObject.Redis.Database,
 	})
+
+	if err := RedisClient.Ping().Err(); err != nil {
+		log.Fatal(err)
+	}
 }
