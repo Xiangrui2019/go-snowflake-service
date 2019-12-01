@@ -3,8 +3,7 @@ package main
 import (
 	_ "go-snowflake-service/cache"
 	_ "go-snowflake-service/conf"
-	"go-snowflake-service/generator_pool"
-	"log"
+	"go-snowflake-service/workers"
 )
 
 /**
@@ -29,13 +28,7 @@ func main() {
 **/
 
 func main() {
-	generator_pool.GetSnowFlake(1)
-	for k, v := range generator_pool.GeneratorPool {
-		log.Println(k, v)
-	}
-	generator_pool.GetSnowFlake(2)
+	workers.StartAutoGenerator()
 
-	for k, v := range generator_pool.GeneratorPool {
-		log.Println(k, v)
-	}
+	select {}
 }
