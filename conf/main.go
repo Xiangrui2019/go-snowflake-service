@@ -1,7 +1,6 @@
 package conf
 
 import (
-	"go-snowflake-service/cache"
 	"log"
 	"os"
 
@@ -11,14 +10,10 @@ import (
 )
 
 type Config struct {
-	Basic struct {
-	} `yaml:"basic"`
-
-	Redis struct {
-		Addr     string `yaml:"addr"`
-		Password string `yaml:"password"`
-		Database int    `yaml:"database"`
-	} `yaml:"redis"`
+	Addr          string `yaml:"addr"`
+	RedisAddr     string `yaml:"redis_addr"`
+	RedisDatabase int    `yaml:"redis_database"`
+	RedisPassword string `yaml:"redis_password"`
 }
 
 var ConfigObject *Config
@@ -49,7 +44,4 @@ func init() {
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	// 初始化所有的Client
-	cache.InitRedis()
 }

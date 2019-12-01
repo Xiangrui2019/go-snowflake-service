@@ -9,11 +9,11 @@ import (
 
 var RedisClient *redis.Client
 
-func InitRedis() {
+func init() {
 	RedisClient = redis.NewClient(&redis.Options{
-		Addr:     conf.ConfigObject.Redis.Addr,
-		Password: conf.ConfigObject.Redis.Password,
-		DB:       conf.ConfigObject.Redis.Database,
+		Addr:     conf.ConfigObject.RedisAddr,
+		Password: conf.ConfigObject.RedisPassword,
+		DB:       conf.ConfigObject.RedisDatabase,
 	})
 
 	if err := RedisClient.Ping().Err(); err != nil {
