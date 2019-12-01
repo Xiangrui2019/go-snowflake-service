@@ -18,6 +18,7 @@ type SnowFlake struct {
 
 func NewSnowFlake(node int64) *SnowFlake {
 	return &SnowFlake{
+		mutex:     &sync.Mutex{},
 		timestamp: 0,
 		node:      node,
 		step:      0,

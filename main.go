@@ -1,9 +1,7 @@
 package main
 
 import (
-	_ "go-snowflake-service/cache"
 	"go-snowflake-service/conf"
-	_ "go-snowflake-service/conf"
 	"go-snowflake-service/pb"
 	"go-snowflake-service/services"
 	"log"
