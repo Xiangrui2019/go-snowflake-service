@@ -11,6 +11,14 @@ import (
 )
 
 type Config struct {
+	Basic struct {
+	} `yaml:"basic"`
+
+	Redis struct {
+		Addr     string `yaml:"addr"`
+		Password string `yaml:"password"`
+		Database int    `yaml:"database"`
+	} `yaml:"redis"`
 }
 
 var ConfigObject *Config
