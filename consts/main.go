@@ -7,5 +7,4 @@ const (
 	StepMax   int64 = -1 ^ (-1 << StepBits) // 序列号的最大值，用于检测溢出
 	TimeShift uint8 = NodeBits + StepBits   // 时间戳向左的偏移量
 	NodeShift uint8 = StepBits              // 节点 ID 向左的偏移量
-	Epoch     int64 = 1288834974657         // 时间 2006
 )

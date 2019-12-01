@@ -10,10 +10,11 @@ import (
 )
 
 type Config struct {
-	Addr          string `yaml:"addr"`
-	RedisAddr     string `yaml:"redis_addr"`
-	RedisDatabase int    `yaml:"redis_database"`
-	RedisPassword string `yaml:"redis_password"`
+	Addr           string `yaml:"addr"`
+	RedisAddr      string `yaml:"redis_addr"`
+	RedisDatabase  int    `yaml:"redis_database"`
+	RedisPassword  string `yaml:"redis_password"`
+	EpochTimeStamp int64  `yaml:"epoch_timestamp"`
 }
 
 var ConfigObject *Config
