@@ -26,7 +26,7 @@ func NewSnowFlake(node int64) *SnowFlake {
 
 func (gen *SnowFlake) GenerateId() (ID, error) {
 	for {
-		if qs, _ := cache.RedisClient.SetNX(strconv.Itoa(int(gen.node)), "1", 0).Result(); qs == true {
+		if qs, _ := cache.RedisClient.SetNX(strconv.Itoa(int(gen.node)), "1", time.Minute*5).Result(); qs == true {
 			break
 		}
 
