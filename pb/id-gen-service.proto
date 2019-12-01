@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package pb;
+
+service IdGeneratorService {
+    rpc GenerateId(GenerateIdRequest) returns(GenerateIdReply) {}
+}
+
+message GenerateIdRequest {
+    int64 NodeId = 1;
+}
+
+message GenerateIdReply {
+    int64 Id = 1;
+    string Error = 2;
+}
