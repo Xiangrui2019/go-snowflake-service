@@ -2,17 +2,12 @@ package main
 
 import (
 	_ "go-snowflake-service/cache"
-	"go-snowflake-service/conf"
 	_ "go-snowflake-service/conf"
-	"go-snowflake-service/pb"
-	"go-snowflake-service/services"
+	"go-snowflake-service/generator_pool"
 	"log"
-	"net"
-
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/reflection"
 )
 
+/**
 func main() {
 	listen, err := net.Listen("tcp", conf.ConfigObject.Addr)
 
@@ -29,5 +24,18 @@ func main() {
 
 	if err := server.Serve(listen); err != nil {
 		log.Fatal(err)
+	}
+}
+**/
+
+func main() {
+	generator_pool.GetSnowFlake(1)
+	for k, v := range generator_pool.GeneratorPool {
+		log.Println(k, v)
+	}
+	generator_pool.GetSnowFlake(2)
+
+	for k, v := range generator_pool.GeneratorPool {
+		log.Println(k, v)
 	}
 }
