@@ -1,2 +1,3 @@
 # go-snowflake-service
-一个流水号ID生成器, Twitter雪花算法+ID Pool.
+
+分布式有序流水号生成器, 基于Redis(可能之后会更改为Etcd).
