@@ -12,9 +12,11 @@ var (
 
 func GetSnowFlake(nodeId int64) *snowflake.SnowFlake {
 	mutex.Lock()
+
 	if _, err := GeneratorPool[nodeId]; err != true {
 		GeneratorPool[nodeId] = snowflake.NewSnowFlake(nodeId)
 	}
+
 	mutex.Unlock()
 	return GeneratorPool[nodeId]
 }
