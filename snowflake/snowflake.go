@@ -30,7 +30,7 @@ func (gen *SnowFlake) GenerateId() (ID, error) {
 			break
 		}
 
-		time.Sleep(time.Microsecond)
+		time.Sleep(time.Nanosecond)
 	}
 
 	// 获取当前时间戳
