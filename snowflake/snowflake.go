@@ -23,7 +23,7 @@ func NewSnowFlake(node int64) *SnowFlake {
 	return &SnowFlake{
 		mutex:     &sync.Mutex{},
 		timestamp: 0,
-		node:      node + rand.Int63n(8888),
+		node:      node,
 		step:      0,
 	}
 }
